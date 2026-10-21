@@ -1,0 +1,37 @@
+{
+  "name": "student-management-app",
+  "version": "1.0.0",
+  "description": "Simple Windows Student Management Software",
+  "main": "main.js",
+  "author": "Student Management App",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "in.studentmanagement.desktop",
+    "productName": "Student Management",
+    "directories": { "output": "dist" },
+    "files": [
+      "main.js",
+      "index.html",
+      "styles.css",
+      "renderer.js",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

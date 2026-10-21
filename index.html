@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">SM</div><div><strong>StudentDesk</strong><small>Management System</small></div></div>
+      <div class="nav-label">MAIN MENU</div>
+      <button class="nav-item active" id="navDashboard">▦ <span>Dashboard</span></button>
+      <button class="nav-item" id="navStudents">♙ <span>Students</span></button>
+      <button class="nav-item" id="navReports">▤ <span>Reports & Export</span></button>
+      <div class="sidebar-bottom"><div class="offline-dot"></div><span>Offline desktop app</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">STUDENT ADMINISTRATION</div><h1 id="pageTitle">Dashboard</h1></div>
+        <button class="primary" id="addTop">＋ Add Student</button>
+      </header>
+
+      <section id="dashboardView">
+        <div class="welcome"><div><h2>Welcome back! 👋</h2><p>अपने विद्यार्थियों का रिकॉर्ड एक जगह मैनेज करें।</p></div><div class="welcome-icon">🎓</div></div>
+        <div class="stats">
+          <article class="stat-card"><div class="stat-icon blue">♙</div><div><span>Total Students</span><strong id="totalStudents">0</strong><small>कुल विद्यार्थी</small></div></article>
+          <article class="stat-card"><div class="stat-icon green">✓</div><div><span>Active Students</span><strong id="activeStudents">0</strong><small>सक्रिय रिकॉर्ड</small></div></article>
+          <article class="stat-card"><div class="stat-icon orange">▣</div><div><span>Classes</span><strong id="totalClasses">0</strong><small>अलग-अलग कक्षाएँ</small></div></article>
+        </div>
+        <section class="panel">
+          <div class="panel-heading"><div><h3>Recent Students</h3><p>हाल ही में जोड़े गए विद्यार्थी</p></div><button class="text-button" id="viewAll">View all →</button></div>
+          <div class="table-wrap"><table><thead><tr><th>ROLL NO.</th><th>STUDENT NAME</th><th>CLASS</th><th>MOBILE</th><th>STATUS</th></tr></thead><tbody id="recentRows"></tbody></table></div>
+          <div class="empty" id="recentEmpty"><div class="empty-icon">♙</div><strong>अभी कोई विद्यार्थी नहीं है</strong><p>शुरुआत करने के लिए “Add Student” पर क्लिक करें।</p><button class="primary" id="firstAdd">＋ Add First Student</button></div>
+        </section>
+      </section>
+
+      <section id="studentsView" hidden>
+        <div class="toolbar"><div class="searchbox">⌕ <input id="searchInput" placeholder="नाम, रोल नंबर या मोबाइल खोजें..."></div><button class="secondary" id="exportCsv">↓ Export CSV</button></div>
+        <section class="panel">
+          <div class="panel-heading"><div><h3>All Students</h3><p id="studentCountLabel">0 records</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>ROLL NO.</th><th>STUDENT NAME</th><th>CLASS</th><th>MOBILE</th><th>ADMISSION DATE</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="studentRows"></tbody></table></div>
+          <div class="empty" id="studentsEmpty" hidden><div class="empty-icon">⌕</div><strong>कोई रिकॉर्ड नहीं मिला</strong><p>खोज बदलें या नया विद्यार्थी जोड़ें।</p></div>
+        </section>
+      </section>
+
+      <section id="reportsView" hidden>
+        <section class="panel report-panel"><div class="report-icon">📊</div><h2>Reports & Export</h2><p>अपने विद्यार्थी रिकॉर्ड का बैकअप लें या प्रिंट/PDF रिपोर्ट बनाएँ।</p><div class="report-actions"><button class="primary" id="reportCsv">↓ Download CSV</button><button class="secondary" id="printReport">▤ Print / Save as PDF</button><button class="secondary" id="backupJson">↓ Backup JSON</button></div><p class="hint">PDF के लिए Print / Save as PDF दबाएँ और प्रिंटर विकल्प में “Save as PDF” चुनें।</p></section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head"><div><div class="eyebrow">STUDENT RECORD</div><h2 id="modalTitle">Add Student</h2></div><button class="close" id="closeModal" aria-label="Close">×</button></div>
+      <form id="studentForm">
+        <input type="hidden" id="editId">
+        <div class="form-grid">
+          <label>Student Full Name *<input id="fullName" required maxlength="100" placeholder="जैसे: Rahul Kumar"></label>
+          <label>Roll Number *<input id="rollNo" required maxlength="30" placeholder="जैसे: LLB001"></label>
+          <label>Class / Course *<input id="className" required maxlength="60" placeholder="जैसे: B.A. 1st Year"></label>
+          <label>Mobile Number<input id="mobile" inputmode="numeric" maxlength="15" placeholder="मोबाइल नंबर"></label>
+          <label>Admission Date<input id="admissionDate" type="date"></label>
+          <label>Status<select id="status"><option>Active</option><option>Inactive</option></select></label>
+          <label class="full">Address<textarea id="address" rows="2" maxlength="250" placeholder="विद्यार्थी का पता (वैकल्पिक)"></textarea></label>
+        </div>
+        <div class="form-error" id="formError" role="alert"></div>
+        <div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancel</button><button type="submit" class="primary">Save Student</button></div>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="renderer.js"></script>
+</body>
+</html>
